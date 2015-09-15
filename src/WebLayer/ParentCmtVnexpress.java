@@ -25,14 +25,17 @@ public class ParentCmtVnexpress implements IParentComment {
 
         // parse url to get objecttype
         int objecttype = 0;
-        if(article.getUrl().matches("(.*)/tin-tuc/(.*)"))
+        if (article.getUrl().matches("(.*)/tin-tuc/(.*)")) {
             objecttype = 1;
-        if(article.getUrl().matches("(.*)/photo/(.*)"))
+        }
+        if (article.getUrl().matches("(.*)/photo/(.*)")) {
             objecttype = 3;
-        if(article.getUrl().matches("(.*)/infographic/(.*)"))
+        }
+        if (article.getUrl().matches("(.*)/infographic/(.*)")) {
             objecttype = 4;
+        }
         // create url to get comment
-        String url = source_url + "&objectid=" + article.getObjectID() + "&objecttype="+objecttype + "&siteid=1" + "&categoryid="
+        String url = source_url + "&objectid=" + article.getObjectID() + "&objecttype=" + objecttype + "&siteid=1" + "&categoryid="
                 + article.getIDTableCategory();
 
         // Parse json
@@ -69,6 +72,10 @@ public class ParentCmtVnexpress implements IParentComment {
             lpar.add(temptParentCmt);
         }
 
-        return lpar;
+        if (lpar.isEmpty()) {
+            return null;
+        } else {
+            return lpar;
+        }
     }
 }

@@ -9,7 +9,6 @@ package main;
  *
  * @author Minh Nhat
  */
-
 import BusinessLayer.ArticleBUS;
 import BusinessLayer.ParentCmtBUS;
 import BusinessLayer.SubCmtBUS;
@@ -28,24 +27,33 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import WebLayer.*;
+import java.io.IOException;
 
 public class TestUpdate {
-    public static void main(String[] args) throws SQLException
-    {
-         String username = "nhat";
+
+    public static void main(String[] args) throws SQLException, IOException {
+        String username = "nhat";
         String password = "mysql!@3";
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+        Timestamp newtime = new Timestamp(calendar.getTimeInMillis());
+
+        //calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        Timestamp lasttime = new Timestamp(calendar.getTimeInMillis());
         
-        List<ArticleDTO> lart = null;
-        ArticleBUS artBUS = new ArticleBUS(username, password);
+        WebLayer wl = new WebLayer(username, password);
+        String url = "http://vnexpress.net";
         
-        lart= artBUS.getArticleToUpdate(1, 3);
+        //wl.update(url, 1);
+        wl.insert(url, newtime, lasttime);
         
-         for (int i = 0; i < lart.size(); i++) {
-            System.out.println(
-                    "ObjectID : " + lart.get(i).getObjectID() +
-                   "\nTitle : " + lart.get(i).getTitle() + "\nURL : " + lart.get(i).getUrl() + "\nCategory : "
-                    + lart.get(i).getIDTableCategory() + "\nFb like : " + lart.get(i).facebook.getFBLike() + "\n");
-            
-        }
+        System.out.println("Finished");
+
     }
 }

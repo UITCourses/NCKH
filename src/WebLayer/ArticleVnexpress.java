@@ -158,14 +158,13 @@ public class ArticleVnexpress extends  ArticleObject {
             
         }
 //</editor-fold>
+        
         // article like
-            url = apiVNELikeStart + art.getObjectID() + apiVNELikeEnd;
-            art.setArticleLike(getArticleLike(url));
+            art.setArticleLike(getArticleLike(art.getObjectID()));
             
         // facebook
-        url = apiFBStart + source_url + apiFBEnd;
         try {
-            art.facebook = getContentOfFacebook(url);
+            art.facebook = getContentOfFacebook(source_url);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -175,7 +174,10 @@ public class ArticleVnexpress extends  ArticleObject {
     }
 
     // get Like
-    private int getArticleLike(String url) {
+    @Override
+    public int getArticleLike(int objectID) {
+        String  url = apiVNELikeStart + objectID + apiVNELikeEnd;
+
         int count = 0;
         String tempt = "";
         String data = null;

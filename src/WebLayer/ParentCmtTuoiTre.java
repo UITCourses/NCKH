@@ -40,12 +40,12 @@ public class ParentCmtTuoiTre implements IParentComment {
             e.printStackTrace();
         }
         //</editor-fold>
-        
+
         Elements datas = doc.select(".lst-comment > ul > li"); // contain parent and sub
         Element data = null;
-            for (int i = 0; i < datas.size(); i++) {
-                 // get content of parent comment
-                data = datas.get(i).select("> dl > dd").first();
+        for (int i = 0; i < datas.size(); i++) {
+            // get content of parent comment
+            data = datas.get(i).select("> dl > dd").first();
             ParentCmtDTO temptParentCmt = new ParentCmtDTO();
             temptParentCmt.setIDTableArticle(article.getIDTableArticle());
             temptParentCmt.setCmtLike(Integer.parseInt(data.select("span.like_number").text()));
@@ -53,15 +53,19 @@ public class ParentCmtTuoiTre implements IParentComment {
             temptParentCmt.setContent(data.select("p.cm-content").text());
             // If parent comment has child comment => add parentID to List
             // parentIDHasSub
-           // if (datas.get(i).select("> ul").toString().length() > 2) {
+            // if (datas.get(i).select("> ul").toString().length() > 2) {
             if (datas.get(i).select("> ul").text().toString().length() > 2) {
                 parentIDHasSub.add(temptParentCmt.getParentID());
             }
 
             // add parent comment to List<ParentComentDTO>
             lpar.add(temptParentCmt);
-            }
+        }
+        if (lpar.isEmpty()) {
+            return null;
+        } else {
             return lpar;
+        }
     }
 
 }

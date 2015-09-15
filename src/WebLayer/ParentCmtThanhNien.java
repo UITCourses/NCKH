@@ -83,6 +83,10 @@ public class ParentCmtThanhNien implements IParentComment {
             }
             count++;
         }
-        return lpar;
+        if (lpar.isEmpty()) {
+            return null;
+        } else {
+            return lpar;
+        }
     }
 }

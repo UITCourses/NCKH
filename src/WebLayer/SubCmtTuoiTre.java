@@ -51,7 +51,7 @@ public class SubCmtTuoiTre implements ISubComment {
         for (int i = 0; i < datas.size(); i++) {
 
             for (int ii = 0; ii < parentcomment.size(); ii++) {
-                data = datas.get(i).select(String.format("#"+cssparentid + "%d", parentcomment.get(ii))).first();
+                data = datas.get(i).select(String.format("#" + cssparentid + "%d", parentcomment.get(ii))).first();
                 if (data != null) {
                     parentid = parentcomment.get(ii);
                     //data = data.select("> ul").first();
@@ -61,26 +61,31 @@ public class SubCmtTuoiTre implements ISubComment {
                 }
             }
 
-                if(data == null)
-                    continue;
-                // get content of child comment
-                datasubs = datas.get(i).select("ul > li");
-                for (int j = 0; j < datasubs.size(); j++) {
-                    data = datasubs.select("> dl > dd").first();
-                    SubCmtDTO temptSubComment = new SubCmtDTO();
-                    temptSubComment.setIDTableArticle(article.getIDTableArticle());
-                    temptSubComment.setParentID(parentid);
-                    temptSubComment.setCmtLike(Integer.parseInt(data.select("span.like_number").text()));
-                    temptSubComment.setChildID(Integer.parseInt(data.select(".like_comment_div > a.like_btn").attr("id").replaceAll("[^0-9]", "").trim()));
-                    temptSubComment.setContent(data.select("p.cm-content").text());
+            if (data == null) {
+                continue;
+            }
+            // get content of child comment
+            datasubs = datas.get(i).select("ul > li");//
+            for (int j = 0; j < datasubs.size(); j++) {
+                data = datasubs.get(j).select("> dl > dd").first();
+                SubCmtDTO temptSubComment = new SubCmtDTO();
+                temptSubComment.setIDTableArticle(article.getIDTableArticle());
+                temptSubComment.setParentID(parentid);
+                temptSubComment.setCmtLike(Integer.parseInt(data.select("span.like_number").text()));
+                temptSubComment.setChildID(Integer.parseInt(data.select(".like_comment_div > a.like_btn").attr("id").replaceAll("[^0-9]", "").trim()));
+                temptSubComment.setContent(data.select("p.cm-content").text());
             // If parent comment has child comment => add parentID to List
-                    // parentIDHasSub
-                    // if (datas.get(i).select("> ul").toString().length() > 2) {
+                // parentIDHasSub
+                // if (datas.get(i).select("> ul").toString().length() > 2) {
 
-                    // add parent comment to List<ParentComentDTO>
-                    lSub.add(temptSubComment);
-                }
+                // add parent comment to List<ParentComentDTO>
+                lSub.add(temptSubComment);
+            }
         }
-        return lSub;
+        if (lSub.isEmpty()) {
+            return null;
+        } else {
+            return lSub;
+        }
     }
 }

@@ -146,9 +146,8 @@ public class ArticleThanhNien extends  ArticleObject {
 //</editor-fold>
 
         // facebook ok
-        String url = apiFBStart + source_url + apiFBEnd;
         try {
-            art.facebook = getContentOfFacebook(url);
+            art.facebook = getContentOfFacebook(source_url);
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -305,6 +304,12 @@ public class ArticleThanhNien extends  ArticleObject {
             } // end while loop
         }
         return artArray;
+    }
+
+    @Override
+    public int getArticleLike(int objectID) {
+       /// throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0;
     }
 
 }

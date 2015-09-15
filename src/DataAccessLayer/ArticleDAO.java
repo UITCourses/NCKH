@@ -96,14 +96,17 @@ public class ArticleDAO extends OpenDBConnection {
                 // context.lookup("jbdc/pool/nckhDB");
                 openConnection(username, password);
             }
-            call = connection.prepareCall("{call updateArticle(?,?,?,?,?,?)}");
+            call = connection.prepareCall("{call updateArticle(?,?,?,?,?,?,?)}");
 
+            // (IDTableArticle int, IDTableUpdateTime int, CountOfUpdate int, FbLike int, FbCmt int,
+	//FbShare int, ArticleLikeupdateArticle int
             call.setInt("IDTableArticle", art.getIDTableArticle());
             call.setInt("IDTableUpdateTime", art.getIDTableUpdateTime());
             call.setInt("CountOfUpdate", art.getCountOfUpdate());
             call.setInt("FbLike", art.facebook.getFBLike());
             call.setInt("FbCmt", art.facebook.getFBCmt());
-            call.setInt("FBShare", art.facebook.getFBShare());
+            call.setInt("FbShare", art.facebook.getFBShare());
+            call.setInt("ArticleLike", art.getArticleLike());
 
             call.execute();
             return true;
@@ -184,7 +187,7 @@ public class ArticleDAO extends OpenDBConnection {
             
             call.setInt(1, IDTableUpdateTime);
             call.setInt(2, IDTableMagazine);
-            //select IDTableArticle, CountOfUpdate, Url, ArticleLike, FbLike,FbCmt,FbShare
+            //select IDTableArticle, CountOfUpdate, Url, ArticleLike, FbLike,FbCmt,FbShare, objectID
 
             ResultSet rart = call.executeQuery();
             while(rart.next())
@@ -198,6 +201,7 @@ public class ArticleDAO extends OpenDBConnection {
                 fb.setFBLike(rart.getInt(5));
                 fb.setFBCmt(rart.getInt(6));
                 fb.setFBShare(rart.getInt(7));
+                art.setObjectID(rart.getInt(8));
                 
                 art.facebook = fb;
                 
@@ -229,5 +233,46 @@ public class ArticleDAO extends OpenDBConnection {
             }
         }
         return null;
+    }
+    
+    // isArticleExists
+      public int isArticleExists (String username, String password, ArticleDTO art)    {
+        try {
+            if(connection.isClosed())
+                openConnection(username, password);
+            // isArticleExists (IDTableMagazine int, ObjectID int, out Result int)
+            call = connection.prepareCall("{call isArticleExists(?,?,?)}");
+            
+            call.setInt(1, art.getIDTableMagazine());
+            call.setInt(2, art.getObjectID());
+            call.registerOutParameter(3,Types.INTEGER );
+            
+            call.execute();
+            
+            return call.getInt(3);
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            try {
+                if (call != null) {
+                    call.close();
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return -1;
     }
 }

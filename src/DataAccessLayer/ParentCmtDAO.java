@@ -30,15 +30,15 @@ public class ParentCmtDAO extends OpenDBConnection {
                 // context.lookup("jbdc/pool/nckhDB");
                 openConnection(username, password);
             }
-            //IDTableParentCmnt int, IDTableArticle int, parentID int, CmtLike int, Content
+            //IDTableParentCmt int, IDTableArticle int, parentID int, CmtLike int, Content
             call = connection.prepareCall("{call insertParentCmt(?,?,?,?,?)}");
 
-            call.setInt("IDTableParentCmt", par.getIDTableParentCmt());
-            call.setInt("IDTableArticle", par.getIDTableArticle());
-            call.setInt("parentID", par.getParentID());
-            call.setInt("CmtLike", par.getCmtLike());
-            call.setString("Content", par.getContent());
-
+            call.setInt(1, par.getIDTableParentCmt());
+            call.setInt(2, par.getIDTableArticle());
+            call.setInt(3, par.getParentID());
+            call.setInt(4, par.getCmtLike());
+            call.setString(5, par.getContent());
+            //`   
             call.execute();
             return true;
 
@@ -74,12 +74,13 @@ public class ParentCmtDAO extends OpenDBConnection {
                 // context.lookup("jbdc/pool/nckhDB");
                 openConnection(username, password);
             }
-            //IDTableArticle int, ParentID int, out Result
-            call = connection.prepareCall("{call updateParentCmt(?,?,?)}");
+            //IDTableArticle int,  parentID int,  CmtLike int, Content varchar
+            call = connection.prepareCall("{call updateParentCmt(?,?,?,?)}");
 
             call.setInt(1, par.getIDTableArticle());
             call.setInt(2, par.getParentID());
             call.setInt(3, par.getCmtLike());
+            call.setString(4, par.getContent());
 
             call.execute();
             return true;
@@ -147,13 +148,14 @@ public class ParentCmtDAO extends OpenDBConnection {
         return -1;
     }
 
+    // exist => 1
     public int isParentCmtExits(String username, String password, ParentCmtDTO par) {
         try {
             if (connection.isClosed()) {
                 openConnection(username, password);
             }
             //IDTableArticle int, ParentID int, out Result int
-            call = connection.prepareCall("{call isParentCmntExits(?,?,?)}");
+            call = connection.prepareCall("{call isParentCmtExits(?,?,?)}");
 
             call.setInt("IDTableArticle", par.getIDTableArticle());
             call.setInt("ParentID", par.getParentID());

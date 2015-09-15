@@ -148,13 +148,12 @@ public class ArticleTuoiTre extends ArticleObject {
         //</editor-fold>
 
         // article like
-        url = apiTuoiTreArticleLike + art.getObjectID();
-        art.setArticleLike(getArticleLike(url));
+       
+        art.setArticleLike(getArticleLike(art.getObjectID()));
 
         // facebook ok
-        url = apiFBStart + source_url + apiFBEnd;
         try {
-            art.facebook = getContentOfFacebook(url);
+            art.facebook = getContentOfFacebook(source_url);
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -315,7 +314,9 @@ public class ArticleTuoiTre extends ArticleObject {
     }
 
     // get article like
-    public int getArticleLike(String url) {
+    @Override
+    public int getArticleLike(int objectId) {
+         String url = apiTuoiTreArticleLike + objectId;
         try {
             Document doc = Jsoup.connect(url).timeout(5000).get();
             Element ele = doc.select("span.sl").first();

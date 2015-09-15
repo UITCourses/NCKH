@@ -32,11 +32,11 @@ public class SubCmtDAO extends OpenDBConnection {
 //IDTableSubCmt int, IDTableParentCmt int,  ChildID int, CmtLike int, Content
             call = connection.prepareCall("{call insertSubCmt(?,?,?,?,?)}");
 
-            call.setInt("IDTableSubCmt", sub.getIDTableSubCmt());
-            call.setInt("IDTableParentCmt", sub.getIDTableParentCmt());
-            call.setInt("ChildID", sub.getChildID());
-            call.setInt("CmtLike", sub.getCmtLike());
-            call.setString("Content", sub.getContent());
+            call.setInt(1, sub.getIDTableSubCmt());
+            call.setInt(2, sub.getIDTableParentCmt());
+            call.setInt(3, sub.getChildID());
+            call.setInt(4, sub.getCmtLike());
+            call.setString(5, sub.getContent());
 
             call.execute();
             return true;
@@ -147,15 +147,16 @@ public class SubCmtDAO extends OpenDBConnection {
     }
     
     // 1 => exist
-    public int isSubCmntExits(String username, String password, SubCmtDTO sub ){
+    public int isSubCmtExits(String username, String password, SubCmtDTO sub ){
         try {
             if(connection.isClosed())
                 openConnection(username, password);
-            //isSubCmntExits(IDTableParentCmt int, ChildID int, out Result int)
-            call = connection.prepareCall("{call isSubCmntExits(?,?,?)}");
+            //isSubCmntExits(IDTableArticle int, ParentID int, ChildID int, out Result int
+            call = connection.prepareCall("{call isSubCmtExits(?,?,?,?)}");
             
-            call.setInt("IDTableParentCmt", sub.getIDTableParentCmt());
-            call.setInt("ChildID", sub.getChildID());
+            call.setInt(1, sub.getIDTableArticle());
+            call.setInt(2, sub.getParentID());
+            call.setInt(3, sub.getChildID());
             call.registerOutParameter("Result",Types.INTEGER );
             
             call.execute();

@@ -64,7 +64,7 @@ public class SubCmtThanhNien implements ISubComment {
                     if (meta != null) {
                         parentid = parentcomment.get(ii);
                         parentcomment.remove(ii);
-                        ii=0;
+                        ii = 0;
                         break;
                     }
                 }
@@ -91,10 +91,10 @@ public class SubCmtThanhNien implements ISubComment {
                     // get like
                     tempt = meta.select(".comments-likes-number").first().text();
                     temptSubComment.setCmtLike(Integer.parseInt(tempt));
-                    
+
                     // get content of comment
-                   tempt = meta.select(".Comments-item-Content").first().text();
-                   temptSubComment.setContent(tempt);
+                    tempt = meta.select(".Comments-item-Content").first().text();
+                    temptSubComment.setContent(tempt);
                     // add list SubParentDTO
                     arraySub.add(temptSubComment);
                 }
@@ -102,7 +102,11 @@ public class SubCmtThanhNien implements ISubComment {
             }
             count++;
         }
-        return arraySub;
+        if (arraySub.isEmpty()) {
+            return null;
+        } else {
+            return arraySub;
+        }
     }
 
 }

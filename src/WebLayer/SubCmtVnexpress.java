@@ -70,6 +70,9 @@ public class SubCmtVnexpress implements ISubComment {
             }
         }
 
+        if(object.isEmpty())
+            return null;
+        else 
         return object;
     }
 }

@@ -12,7 +12,9 @@ package BusinessLayer;
 import DTO.*;
 import DataAccessLayer.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 public class ArticleBUS {
 
@@ -20,6 +22,7 @@ public class ArticleBUS {
     private String username = null;
     private String password = null;
     private ArticleDAO artDAO = null;
+    List<Integer> updateList = new ArrayList(Arrays.asList(144, 48, 120, 28, 28, -1));
 
     public ArticleBUS() {
     }
@@ -42,27 +45,63 @@ public class ArticleBUS {
     }
 
     public boolean updateArticle(ArticleDTO art) {
+        int maxCount = updateList.get(art.getIDTableUpdateTime() - 1);
+        if (art.getCountOfUpdate() < maxCount - 1) {
+            art.setCountOfUpdate(art.getCountOfUpdate() + 1);
+        } else {
+            if (art.getCountOfUpdate() == 5) {
+                art.setCountOfUpdate(-1);
+            } else {
+                art.setCountOfUpdate(0);
+            }
+            art.setIDTableUpdateTime(art.getIDTableUpdateTime() + 1);
+        }
         return artDAO.updateArticle(username, password, art);
     }
 
-    
     public int getMaxIDTableArticle() {
         return artDAO.getMaxIDTableArticle(username, password);
     }
-    
-    public List<ArticleDTO> getArticleToUpdate(int IDTableUpdateTime , int IDTableMagazine){
+
+    public List<ArticleDTO> getArticleToUpdate(int IDTableUpdateTime, int IDTableMagazine) {
         return artDAO.getArticleToUpdate(username, password, IDTableUpdateTime, IDTableMagazine);
     }
-    
+
+    public int isArticleExists(ArticleDTO art) {
+        return artDAO.isArticleExists(username, password, art);
+    }
+
     // working with list
-    public boolean insert(List<ArticleDTO> lart){
-        for(ArticleDTO art : lart){
-            if(insertArticle(art) == false)
-                return false;
+    public boolean insert(List<ArticleDTO> lart) {
+        for(int i = 0; i < lart.size(); i++) {
+            if (isArticleExists(lart.get(i)) == 0) {
+                if (insertArticle(lart.get(i)) == false) {
+                    return false;
+                }
+            }
+            else{
+                lart.remove(i);
+                i--;
+            }
         }
         return true;
     }
-    
-    
+
+    public boolean update(List<ArticleDTO> lart) {
+        for (ArticleDTO art : lart) {
+            if (isArticleExists(art) == 1) {
+                if (updateArticle(art) == false) {
+                    return false;
+                } else {
+                    if (insertArticle(art) == false) {
+                        return false;
+                    }
+                }
+            }
+
+        }
+        return true;
+
+    }
 
 }

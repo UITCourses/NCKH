@@ -29,7 +29,9 @@ public abstract class ArticleObject {
     
     
     // facebook
-    protected FacebookDTO getContentOfFacebook(String url) throws MalformedURLException, IOException {
+    protected FacebookDTO getContentOfFacebook(String source_url) throws MalformedURLException, IOException {
+        String  url = apiFBStart + source_url + apiFBEnd;
+
         FacebookDTO fb = new FacebookDTO();
         String json = IOUtils.toString(new URL(url).openStream(), "UTF-8");
         JsonParser parser = new JsonParser();
@@ -58,5 +60,8 @@ public abstract class ArticleObject {
         }
         return false;
     }
+    
+    // get article like
+     public abstract int getArticleLike(int objectID);
 
 }
