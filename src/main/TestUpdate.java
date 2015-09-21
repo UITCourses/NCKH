@@ -39,12 +39,12 @@ public class TestUpdate {
         Calendar calendar = new GregorianCalendar();
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.HOUR_OF_DAY, 15);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
         Timestamp newtime = new Timestamp(calendar.getTimeInMillis());
 
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) - 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
         Timestamp lasttime = new Timestamp(calendar.getTimeInMillis());
         
         WebLayer wl = new WebLayer(username, password);

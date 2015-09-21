@@ -96,12 +96,16 @@ public class WebLayer {
                 parentIDHasSub.clear();
             }
         }
-        
+
         ParentCmtBUS parBUS = new ParentCmtBUS(username, password);
-        parBUS.insert(lParentCmt);
+        if (lParentCmt != null) {
+            parBUS.insert(lParentCmt);
+        }
 
         SubCmtBUS subBus = new SubCmtBUS(username, password);
-        subBus.insert(lSubcmt);
+        if (lSubcmt != null) {
+            subBus.insert(lSubcmt);
+        }
 
     }
 
@@ -128,7 +132,8 @@ public class WebLayer {
                 parComment = new ParentCmtThanhNien();
                 subComment = new SubCmtThanhNien();
                 break;
-            case "http://tuoitre.vn/": case "http://tuoitre.vn" :
+            case "http://tuoitre.vn/":
+            case "http://tuoitre.vn":
                 lOldArt = artBUS.getArticleToUpdate(IDTableUpdate, 3);
                 artObject = new ArticleTuoiTre();
                 parComment = new ParentCmtTuoiTre();
@@ -164,14 +169,14 @@ public class WebLayer {
 //             {
 //                lOldArt.get(i).setArticleLike(articleLike);        
 //            }
-             lOldArt.get(i).setArticleLike(articleLike);
-             lOldArt.get(i).facebook = fb;
-             lOldArt.get(i).setIDTableUpdateTime(IDTableUpdate);
-             
-             lNewArt.add(lOldArt.get(i));
-            
+            lOldArt.get(i).setArticleLike(articleLike);
+            lOldArt.get(i).facebook = fb;
+            lOldArt.get(i).setIDTableUpdateTime(IDTableUpdate);
+
+            lNewArt.add(lOldArt.get(i));
+
         }
-        
+
         artBUS.update(lNewArt);
 
         // update parent and sub comment
