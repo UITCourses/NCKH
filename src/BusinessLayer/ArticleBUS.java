@@ -72,9 +72,10 @@ public class ArticleBUS {
     }
 
     // working with list
+    // if article don't exist => insert
     public boolean insert(List<ArticleDTO> lart) {
         for(int i = 0; i < lart.size(); i++) {
-            if (isArticleExists(lart.get(i)) == 0) {
+            if (isArticleExists(lart.get(i)) == 0) { // phải gọi kiểm tra liên tục => truy suất database liên tục
                 if (insertArticle(lart.get(i)) == false) {
                     return false;
                 }

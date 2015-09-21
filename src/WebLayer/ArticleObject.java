@@ -21,13 +21,15 @@ public abstract class ArticleObject {
     protected String apiFBStart = "https://graph.facebook.com/fql?q=SELECT%20share_count,%20like_count,%20comment_count%20FROM%20link_stat%20where%20url=%27";
     protected String apiFBEnd = "%27";
     // 
-    public abstract ArticleDTO getArticleInformation(String source_url, boolean isUpdate);
+    public abstract ArticleDTO getArticleInformation(String source_url);
 
     public abstract List<String> getMenuWeb(String source_url);
     // trong day se goi ham 
     public abstract List<ArticleDTO> getNewsOfEachMenuDependOnTime(String source_url, Timestamp newtime, Timestamp lasttime);
     
-    
+    // get article like
+     public abstract int getArticleLike(int objectID);
+     
     // facebook
     protected FacebookDTO getContentOfFacebook(String source_url) throws MalformedURLException, IOException {
         String  url = apiFBStart + source_url + apiFBEnd;
@@ -61,7 +63,6 @@ public abstract class ArticleObject {
         return false;
     }
     
-    // get article like
-     public abstract int getArticleLike(int objectID);
+    
 
 }

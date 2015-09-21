@@ -14,7 +14,7 @@ import com.google.gson.JsonParser;
 import DTO.ArticleDTO;
 import DTO.ParentCmtDTO;
 
-public class ParentCmtVnexpress implements IParentComment {
+public class ParentCmtVnexpress implements IParentCmt {
 
     // limit = 0 => get all comments
     private String source_url = "http://usi.saas.vnexpress.net/index/get?&offset=0&limit=0";

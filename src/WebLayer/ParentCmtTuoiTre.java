@@ -19,7 +19,7 @@ import org.jsoup.select.Elements;
  *
  * @author Minh Nhat
  */
-public class ParentCmtTuoiTre implements IParentComment {
+public class ParentCmtTuoiTre implements IParentCmt {
 
     String source_url = "http://cm.tuoitre.vn/comment/createiframe?app_id=6&offset=0&layout=tto&object_id=";
 

@@ -12,7 +12,7 @@ import org.jsoup.select.Elements;
 import DTO.ArticleDTO;
 import DTO.SubCmtDTO;
 
-public class SubCmtThanhNien implements ISubComment {
+public class SubCmtThanhNien implements ISubCmt {
 
     private String source_url = "http://www.thanhnien.com.vn/ajax/comment.aspx?&order=like&cid=";
 

@@ -5,7 +5,7 @@ import java.util.List;
 import DTO.ArticleDTO;
 import DTO.SubCmtDTO;
 
-public interface ISubComment {
+public interface ISubCmt {
 
     /*
     argument : 

@@ -13,8 +13,8 @@ import DTO.ParentCmtDTO;
 import DTO.SubCmtDTO;
 import WebLayer.ArticleTuoiTre;
 import WebLayer.ArticleObject;
-import WebLayer.IParentComment;
-import WebLayer.ISubComment;
+import WebLayer.IParentCmt;
+import WebLayer.ISubCmt;
 import WebLayer.ParentCmtTuoiTre;
 import WebLayer.SubCmtTuoiTre;
 import java.sql.Timestamp;
@@ -37,8 +37,8 @@ public class test2 {
 //        ISubComment subComment = new SubCmtVnexpress();
 
         ArticleObject ar = new ArticleTuoiTre();
-        IParentComment parComment = new ParentCmtTuoiTre();
-        ISubComment subComment = new SubCmtTuoiTre();
+        IParentCmt parComment = new ParentCmtTuoiTre();
+        ISubCmt subComment = new SubCmtTuoiTre();
 
 //        IArticle ar = new ArticleThanhNien();
 //        IParentComment parComment = new ParentCmtThanhNien();
@@ -73,7 +73,7 @@ public class test2 {
         //String a = "http://tuoitre.vn/tin/phap-luat/20150510/vu-kien-neo-xe-ca-tiep-tuc-bi-toa-neo-ho-so/745056.html";
 //        String a = "http://www.thanhnien.com.vn/giao-duc/con-bi-duoi-hoc-vi-me-len-facebook-che-dong-phuc-cua-truong-605950.html";
         String a = "http://tuoitre.vn/tin/giao-duc/20150910/hieu-truong-lap-bai-thi-khong-cho-hs-rut-kinh-nghiem/966480.html";
-        ArticleDTO article = ar.getArticleInformation(a,false);
+        ArticleDTO article = ar.getArticleInformation(a);
         if (article != null) {
             System.out.println("Time : " + article.getArticleDate() + "\nObjectId : " + article.getObjectID() + "\nTitile :"
                     + article.getTitle() + "\nURL : " + article.getUrl() + "\nFacebook Like : "

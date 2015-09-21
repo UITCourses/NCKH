@@ -41,8 +41,8 @@ public class WebLayer {
 //   insert to database with specific magazine
     public void insert(String magazineUrl, Timestamp newtime, Timestamp lasttime) throws SQLException {
         ArticleObject art = null;
-        IParentComment parComment = null;
-        ISubComment subComment = null;
+        IParentCmt parComment = null;
+        ISubCmt subComment = null;
 
         switch (magazineUrl) //<editor-fold defaultstate="collapsed" desc="comment">
         {
@@ -109,8 +109,8 @@ public class WebLayer {
     public void update(String magazineUrl, int IDTableUpdate) throws SQLException, IOException {
         List<ArticleDTO> lOldArt = new ArrayList<ArticleDTO>();
         ArticleObject artObject = null;
-        IParentComment parComment = null;
-        ISubComment subComment = null;
+        IParentCmt parComment = null;
+        ISubCmt subComment = null;
         ArticleBUS artBUS = new ArticleBUS(username, password);
 
         // thanh nien :1, vnexpress : 2, tuoitre : 3

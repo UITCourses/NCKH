@@ -12,7 +12,7 @@ import org.jsoup.select.Elements;
 import DTO.ArticleDTO;
 import DTO.ParentCmtDTO;
 
-public class ParentCmtThanhNien implements IParentComment {
+public class ParentCmtThanhNien implements IParentCmt {
 
     private String source_url = "http://www.thanhnien.com.vn/ajax/comment.aspx?&order=like&cid=";
 

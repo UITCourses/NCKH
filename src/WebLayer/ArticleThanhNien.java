@@ -22,128 +22,123 @@ import DTO.CategoryCommon;
 /*
  * Bao thanh nien khong co luot like cho tung bao bao
  * */
-public class ArticleThanhNien extends  ArticleObject {
+public class ArticleThanhNien extends ArticleObject {
 
     @Override
-    public ArticleDTO getArticleInformation(String source_url, boolean isUpdate) {
+    public ArticleDTO getArticleInformation(String source_url) {
         // TODO Auto-generated method stub
         ArticleDTO art = new ArticleDTO();
         String tempt = null;
         Date d = null;
         Timestamp time = null;
-        
-        if(isUpdate == false)//<editor-fold defaultstate="collapsed" desc="comment">
-        {
-            Document doc = null;
-            try {
-                doc = Jsoup.connect(source_url).timeout(5000).followRedirects(true)
-                        .userAgent(
-                                "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36")
-                        .get();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            
-            // set article url
-            art.setUrl(source_url);
-            
-            // set magazine
-            art.setIDTableMagazine(1);
-            // parse document
-            Elements metas = doc.select("meta[property]");
-            
-            // date
-            Element meta = metas.select("meta[property=article:published_time").first();
-            tempt = meta.attr("content");
-            tempt = tempt.substring(0, tempt.lastIndexOf('T'));
-            tempt = tempt.replace('T', ' ');
-            // tempt = tempt + ".000";
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            try {
-                d = dateFormat.parse(tempt);
-                time = new Timestamp(d.getTime());
-            } catch (ParseException e2) {
-                // TODO Auto-generated catch block
-                e2.printStackTrace();
-            }
-            art.setArticleDate(time);
-            
-            // Title
-            meta = metas.select("meta[property=og:title]").first(); // ok
-            art.setTitle(meta.attr("content"));
-            
-            // Description
-            meta = metas.select("meta[property=og:description").first();
-            art.setDescription(meta.attr("content"));
-            
-            // ObjectID
-            tempt = source_url.substring(0, source_url.lastIndexOf('.'));
-            int e = 0;
-            int objectID = 0;
-            for (int i = tempt.length() - 1; i > 0; i--) {
-                if (tempt.charAt(i) >= '0' && tempt.charAt(i) <= '9') {
-                    objectID += (int) ((tempt.charAt(i) - '0') * Math.pow(10, e));
-                    e++;
-                } else {
-                    break;
-                }
-                
-            }
-            art.setObjectID(objectID);
-            
-            // get category id. and convert it to number
-            // meta = doc.select("#mainMenu .active > a").first();
-            // if (meta == null)
-            // return null;
-            tempt = source_url;
-            tempt = tempt.substring(tempt.indexOf('/', tempt.indexOf('/') + 2) + 1);
-            tempt = tempt.substring(0, tempt.indexOf('/'));
-            
-            // tempt = tempt.trim();
-            // Chính trị - Xã hội, Quân sự , Thế giới, Kinh tế, Giáo dục, Thể thao,
-            // Văn hóa - Giải trí, Công nghệ
-            CategoryCommon cate;
-            switch (tempt) {
-                case "chinh-tri-xa-hoi":
-                case "quan-su":
-                case "doi-song":
-                    cate = CategoryCommon.THOI_SU;
-                    break;
-                case "the-gioi":
-                    cate = CategoryCommon.THE_GIOI;
-                    break;
-                case "kinh-te":
-                    cate = CategoryCommon.KINH_DOANH;
-                    break;
-                case "giao-duc":
-                    cate = CategoryCommon.GIAO_DUC;
-                    break;
-                case "the-thao":
-                    cate = CategoryCommon.THE_THAO;
-                    break;
-                case "van-hoa-giai-tri":
-                    cate = CategoryCommon.GIAI_TRI;
-                    break;
-                case "cong-nghe":
-                    cate = CategoryCommon.KHOA_HOC_CONG_NGHE;
-                    break;
-                default:
-                    cate = CategoryCommon.DEFAULT;
-                    break;
-            }
-            // if (source_url.matches("http://thethao.thanhnien.com.vn(.*)"))
-            // cate = CategoryCommon.THE_THAO;
-            if (cate.getValue() == 0) {
-                return null;
-            }
-            art.setIDTableCategory(cate.getValue());
-            // URl Image
-            meta = metas.select("meta[property=og:image").first(); // ok
-            art.setUrlPicture(meta.attr("content"));
-            
+
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(source_url).timeout(5000).followRedirects(true)
+                    .userAgent(
+                            "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36")
+                    .get();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-//</editor-fold>
+
+        // set article url
+        art.setUrl(source_url);
+
+        // set magazine
+        art.setIDTableMagazine(1);
+        // parse document
+        Elements metas = doc.select("meta[property]");
+
+        // date
+        Element meta = metas.select("meta[property=article:published_time").first();
+        tempt = meta.attr("content");
+        tempt = tempt.substring(0, tempt.lastIndexOf('T'));
+        tempt = tempt.replace('T', ' ');
+        // tempt = tempt + ".000";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        try {
+            d = dateFormat.parse(tempt);
+            time = new Timestamp(d.getTime());
+        } catch (ParseException e2) {
+            // TODO Auto-generated catch block
+            e2.printStackTrace();
+        }
+        art.setArticleDate(time);
+
+        // Title
+        meta = metas.select("meta[property=og:title]").first(); // ok
+        art.setTitle(meta.attr("content"));
+
+        // Description
+        meta = metas.select("meta[property=og:description").first();
+        art.setDescription(meta.attr("content"));
+
+        // ObjectID
+        tempt = source_url.substring(0, source_url.lastIndexOf('.'));
+        int e = 0;
+        int objectID = 0;
+        for (int i = tempt.length() - 1; i > 0; i--) {
+            if (tempt.charAt(i) >= '0' && tempt.charAt(i) <= '9') {
+                objectID += (int) ((tempt.charAt(i) - '0') * Math.pow(10, e));
+                e++;
+            } else {
+                break;
+            }
+
+        }
+        art.setObjectID(objectID);
+
+            // get category id. and convert it to number
+        // meta = doc.select("#mainMenu .active > a").first();
+        // if (meta == null)
+        // return null;
+        tempt = source_url;
+        tempt = tempt.substring(tempt.indexOf('/', tempt.indexOf('/') + 2) + 1);
+        tempt = tempt.substring(0, tempt.indexOf('/'));
+
+            // tempt = tempt.trim();
+        // Chính trị - Xã hội, Quân sự , Thế giới, Kinh tế, Giáo dục, Thể thao,
+        // Văn hóa - Giải trí, Công nghệ
+        CategoryCommon cate;
+        switch (tempt) {
+            case "chinh-tri-xa-hoi":
+            case "quan-su":
+            case "doi-song":
+                cate = CategoryCommon.THOI_SU;
+                break;
+            case "the-gioi":
+                cate = CategoryCommon.THE_GIOI;
+                break;
+            case "kinh-te":
+                cate = CategoryCommon.KINH_DOANH;
+                break;
+            case "giao-duc":
+                cate = CategoryCommon.GIAO_DUC;
+                break;
+            case "the-thao":
+                cate = CategoryCommon.THE_THAO;
+                break;
+            case "van-hoa-giai-tri":
+                cate = CategoryCommon.GIAI_TRI;
+                break;
+            case "cong-nghe":
+                cate = CategoryCommon.KHOA_HOC_CONG_NGHE;
+                break;
+            default:
+                cate = CategoryCommon.DEFAULT;
+                break;
+        }
+            // if (source_url.matches("http://thethao.thanhnien.com.vn(.*)"))
+        // cate = CategoryCommon.THE_THAO;
+        if (cate.getValue() == 0) {
+            return null;
+        }
+        art.setIDTableCategory(cate.getValue());
+        // URl Image
+        meta = metas.select("meta[property=og:image").first(); // ok
+        art.setUrlPicture(meta.attr("content"));
 
         // facebook ok
         try {
@@ -156,6 +151,7 @@ public class ArticleThanhNien extends  ArticleObject {
     }
 
     // Get menu Web
+    @Override
     public List<String> getMenuWeb(String source_url) {
         Document doc = null;
         List<String> arrayMenu = new ArrayList<String>();
@@ -234,43 +230,43 @@ public class ArticleThanhNien extends  ArticleObject {
                     e.printStackTrace();
                 }
 //</editor-fold>
-                
+
                 Elements temptElements = null;
                 Element temptElement = null;
-                
+
                 if (pageCount == 1) {
 
                     //<editor-fold defaultstate="collapsed" desc="id divshowothers">
                     temptElement = doc.select("#divshowothers").first();
                     temptElements = temptElement.select(".bottom-tt-one");
-                    
+
                     for (int j = 0; j < temptElements.size(); j++) {
                         temptElement = temptElements.get(j);
                         temptElement = temptElement.select("a").first();
                         url = temptElement.attr("href");
                         url = source_url + url;
-                        
+
                         // don't get info of article isn't in category
                         // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
                         // continue;
-                        art = getArticleInformation(url,false);
+                        art = getArticleInformation(url);
                         if (art != null) {
-                            
+
                             if (isTheDayOfMonthValid(art, lasttime) == false) {
                                 break;
                             }
                             if (art.getArticleDate().getTime() > lasttime.getTime()
                                     && art.getArticleDate().getTime() < newtime.getTime()) {
-                                
+
                                 artArray.add(art);
                             }
                         }
-                        
+
                     }
 //</editor-fold>
-                    
+
                 } // end if (pageCount == 1) condition
-                
+
                 //<editor-fold defaultstate="collapsed" desc="class lvkd-content id divtoptin">
                 temptElement = doc.select(".lvkd-content").first();
                 temptElements = temptElement.select("#divtoptin");
@@ -283,7 +279,7 @@ public class ArticleThanhNien extends  ArticleObject {
                     // don't get info of article isn't in category
                     // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
                     // break;
-                    art = getArticleInformation(url,false);
+                    art = getArticleInformation(url);
                     if (art != null) {
                         // if date of month of art - day of month of lasttime =
                         // -1 => break outloop
@@ -308,7 +304,7 @@ public class ArticleThanhNien extends  ArticleObject {
 
     @Override
     public int getArticleLike(int objectID) {
-       /// throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /// throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return 0;
     }
 

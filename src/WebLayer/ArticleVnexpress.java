@@ -32,7 +32,7 @@ public class ArticleVnexpress extends  ArticleObject {
     // get article Information, don't get information of video => remove link
     // video in code
     @Override
-    public ArticleDTO getArticleInformation(String source_url, boolean  isUpdate) {
+    public ArticleDTO getArticleInformation(String source_url) {
         if (source_url.matches("(.*)http://video.vnexpress.net(.*)") == true) {
             return null;
         }
@@ -40,8 +40,7 @@ public class ArticleVnexpress extends  ArticleObject {
         ArticleDTO art = new ArticleDTO();
         String url = null;
        
-        if (isUpdate == false)//<editor-fold defaultstate="collapsed" desc="comment">
-        {
+        
         Document doc = null;
         String tempt = null;
         try //<editor-fold defaultstate="collapsed" desc="jsoup connect to source_url">
@@ -156,8 +155,7 @@ public class ArticleVnexpress extends  ArticleObject {
             
             
             
-        }
-//</editor-fold>
+ 
         
         // article like
             art.setArticleLike(getArticleLike(art.getObjectID()));
@@ -298,7 +296,7 @@ public class ArticleVnexpress extends  ArticleObject {
                     // don't get info of article isn't in category
                     // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
                     // continue;
-                    art = getArticleInformation(url,false);
+                    art = getArticleInformation(url);
                     if (isTheDayOfMonthValid(art, lasttime) != false && art != null) {
                         if (art.getArticleDate().getTime() >= lasttime.getTime()
                                 && art.getArticleDate().getTime() < newtime.getTime()) {
@@ -318,7 +316,7 @@ public class ArticleVnexpress extends  ArticleObject {
                         // don't get info of article isn't in category
                         // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
                         // continue;
-                        art = getArticleInformation(url, false);
+                        art = getArticleInformation(url);
                         if (art != null) {
 
                             if (isTheDayOfMonthValid(art, lasttime) == false) {
@@ -346,7 +344,7 @@ public class ArticleVnexpress extends  ArticleObject {
                     // don't get info of article isn't in category
                     // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
                     // break;
-                    art = getArticleInformation(url,false);
+                    art = getArticleInformation(url);
                     if (art != null) {
                         // if date of month of art - day of month of lasttime =
                         // -1 => break outloop

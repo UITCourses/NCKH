@@ -19,7 +19,7 @@ import org.jsoup.select.Elements;
  *
  * @author Minh Nhat
  */
-public class SubCmtTuoiTre implements ISubComment {
+public class SubCmtTuoiTre implements ISubCmt {
 
     String source_url = "http://cm.tuoitre.vn/comment/createiframe?app_id=6&offset=0&layout=tto&object_id=";
 

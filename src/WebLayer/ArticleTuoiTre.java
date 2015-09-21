@@ -34,14 +34,13 @@ public class ArticleTuoiTre extends ArticleObject {
     String apiTuoiTreMenu = "http://tuoitre.vn/page?ajax=169---tto_custom_list&slug=";
 
     @Override
-    public ArticleDTO getArticleInformation(String source_url, boolean isUpdate) {
+    public ArticleDTO getArticleInformation(String source_url) {
         // TODO Auto-generated method stub
         ArticleDTO art = new ArticleDTO();
         String tempt = null;
         String url = null;
 
-        if (isUpdate == false)//<editor-fold defaultstate="collapsed" desc="is update = ">
-        {
+        
             Document doc = null;
             //<editor-fold defaultstate="collapsed" desc="jsoup connect">
             try {
@@ -144,8 +143,7 @@ public class ArticleTuoiTre extends ArticleObject {
             tempt = tempt.substring(0, tempt.lastIndexOf('-'));
             art.setTitle(tempt);
 
-        }
-        //</editor-fold>
+     
 
         // article like
        
@@ -237,7 +235,7 @@ public class ArticleTuoiTre extends ArticleObject {
             // block-feature
             temptElement = doc.select(".block-feature > a").first();
             url = temptElement.attr("href");
-            art = getArticleInformation(url, false);
+            art = getArticleInformation(url);
             if (art != null && isTheDayOfMonthValid(art, lasttime) != false) {
                 if (art.getArticleDate().getTime() > lasttime.getTime()
                         && art.getArticleDate().getTime() < newtime.getTime()) {
@@ -250,7 +248,7 @@ public class ArticleTuoiTre extends ArticleObject {
             for (int j = 0; j < temptElements.size(); j++) {
                 temptElement = temptElements.get(j);
                 url = temptElement.attr("href");
-                art = getArticleInformation(url, false);
+                art = getArticleInformation(url);
                 if (art != null && isTheDayOfMonthValid(art, lasttime) != false) {
                     if (art.getArticleDate().getTime() > lasttime.getTime()
                             && art.getArticleDate().getTime() < newtime.getTime()) {
@@ -289,7 +287,7 @@ public class ArticleTuoiTre extends ArticleObject {
                     url = temptElement.attr("href");
 
                     // don't get info of article isn't in category
-                    art = getArticleInformation(url, false);
+                    art = getArticleInformation(url);
                     if (art != null) {
                         // if date of month of art - day of month of lasttime =
                         // -1 => break outloop

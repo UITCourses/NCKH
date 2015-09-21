@@ -46,6 +46,7 @@ public class ParentCmtBUS {
     }
 
     // working with list
+    // kiem tra co ton tai hay khong roi moi them vao co so du lieu
     public boolean insert(List<ParentCmtDTO> lpar) {
         for (ParentCmtDTO par : lpar) {
             if (isParentCmtExits(par) == 0) {

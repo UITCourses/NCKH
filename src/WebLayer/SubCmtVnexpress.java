@@ -15,7 +15,7 @@ import com.google.gson.JsonParser;
 import DTO.ArticleDTO;
 import DTO.SubCmtDTO;
 
-public class SubCmtVnexpress implements ISubComment {
+public class SubCmtVnexpress implements ISubCmt {
 
     // url get subcomment of vnexpress
     private String source_url = "http://usi.saas.vnexpress.net/index/getreplay?&limit=0&offset=0&objecttype=";

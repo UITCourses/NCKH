@@ -16,10 +16,10 @@ import DTO.SubCmtDTO;
 import WebLayer.ArticleObject;
 import WebLayer.ArticleThanhNien;
 import WebLayer.ArticleVnexpress;
-import WebLayer.IParentComment;
+import WebLayer.IParentCmt;
 import WebLayer.ParentCmtThanhNien;
 import WebLayer.ParentCmtVnexpress;
-import WebLayer.ISubComment;
+import WebLayer.ISubCmt;
 import WebLayer.SubCmtThanhNien;
 import WebLayer.SubCmtVnexpress;
 
