@@ -74,6 +74,7 @@ public class WebLayer {
         lArticle = art.getNewsOfEachMenuDependOnTime(magazineUrl, newtime, lasttime);
         // finshi this step, IDTableArtile doesn't exist for particular article
         ArticleBUS artBUS = new ArticleBUS(username, password);
+        if(lArticle != null)
         artBUS.insert(lArticle);
         // after insert, has IDTable article in database, not int lArticle list
         for (ArticleDTO article : lArticle) {
@@ -176,7 +177,7 @@ public class WebLayer {
             lNewArt.add(lOldArt.get(i));
 
         }
-
+        if(lNewArt != null)
         artBUS.update(lNewArt);
 
         // update parent and sub comment
@@ -209,9 +210,11 @@ public class WebLayer {
         }
 
         ParentCmtBUS parBUS = new ParentCmtBUS(username, password);
+        if(lParentCmt != null)
         parBUS.update(lParentCmt);
 
         SubCmtBUS subBus = new SubCmtBUS(username, password);
+        if(lSubCmt != null)
         subBus.update(lSubCmt);
 
     }
