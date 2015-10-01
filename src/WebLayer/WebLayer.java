@@ -72,11 +72,11 @@ public class WebLayer {
         List<Integer> parentIDHasSub = new ArrayList<Integer>();
 
         lArticle = art.getNewsOfEachMenuDependOnTime(magazineUrl, newtime, lasttime);
-        // finshi this step, IDTableArtile doesn't exist for particular article
+        // finshish this step, IDTableArtile doesn't exist for particular article
         ArticleBUS artBUS = new ArticleBUS(username, password);
         if(lArticle != null)
         artBUS.insert(lArticle);
-        // after insert, has IDTable article in database, not int lArticle list
+        // after insert, has IDTableArticle in database in lArticle list
         for (ArticleDTO article : lArticle) {
             temptPar = parComment.getContentParentComment(article, parentIDHasSub);
             if (temptPar != null) {
@@ -107,7 +107,6 @@ public class WebLayer {
         if (lSubcmt != null) {
             subBus.insert(lSubcmt);
         }
-
     }
 
     // update to database with specific magazine
@@ -144,8 +143,6 @@ public class WebLayer {
 //</editor-fold>
 
         // update article
-        //ArticleDTO newArt = new ArticleDTO();
-        List<ArticleDTO> lNewArt = new ArrayList<ArticleDTO>();
         int articleLike = 0;
         FacebookDTO fb = null;
         for (int i = 0; i < lOldArt.size(); i++) {
@@ -155,30 +152,14 @@ public class WebLayer {
             // hàm này sẽ truyền vào article dto luôn
             fb = artObject.getContentOfFacebook(lOldArt.get(i).getUrl());
             articleLike = artObject.getArticleLike(lOldArt.get(i).getObjectID());
-            // newArt.setIDTableArticle(oldArt.getIDTableArticle());
-            // newArt.setCountOfUpdate(oldArt.getCountOfUpdate());
-            if (lOldArt.get(i).getArticleLike() == articleLike
-                    && lOldArt.get(i).facebook.getFBLike() == fb.getFBLike()
-                    && lOldArt.get(i).facebook.getFBCmt() == fb.getFBCmt()
-                    && lOldArt.get(i).facebook.getFBShare() == fb.getFBShare()) {
-//                lOldArt.remove(i);
-//                i--;
-                continue;
-            }
-            // cap nhat truc tiep vao oldarticle -> sau do update lai nguyen list luon
-//            if (lOldArt.get(i).getArticleLike() != articleLike)
-//             {
-//                lOldArt.get(i).setArticleLike(articleLike);        
-//            }
+           
             lOldArt.get(i).setArticleLike(articleLike);
             lOldArt.get(i).facebook = fb;
             lOldArt.get(i).setIDTableUpdateTime(IDTableUpdate);
 
-            lNewArt.add(lOldArt.get(i));
-
         }
-        if(lNewArt != null)
-        artBUS.update(lNewArt);
+        if(lOldArt != null)
+        artBUS.update(lOldArt);
 
         // update parent and sub comment
         List<ParentCmtDTO> lParentCmt = null;
@@ -204,7 +185,7 @@ public class WebLayer {
                         lSubCmt = ltemptSub;
                     }
                 }
-                //ltemptSub = null;
+                
                 parentIDHasSub.clear();
             }
         }
@@ -216,6 +197,7 @@ public class WebLayer {
         SubCmtBUS subBus = new SubCmtBUS(username, password);
         if(lSubCmt != null)
         subBus.update(lSubCmt);
+       
 
     }
 

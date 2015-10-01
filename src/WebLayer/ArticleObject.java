@@ -57,6 +57,8 @@ public abstract class ArticleObject {
 
         Calendar cal2 = Calendar.getInstance();
         cal2.setTime(lasttime);
+        if(cal1.get(Calendar.MONTH) > cal2.get(Calendar.MONTH))
+            return true;
         if (cal1.get(Calendar.DAY_OF_MONTH) - cal2.get(Calendar.DAY_OF_MONTH) >= 0) {
             return true;
         }

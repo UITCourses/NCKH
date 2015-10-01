@@ -215,7 +215,7 @@ public class ArticleThanhNien extends ArticleObject {
         for (int i = 0; i < arrayMenu.size(); i++) {
             // get page of each menu
             menuUrl = arrayMenu.get(i) + "/trang-";
-            pageCount = 1;
+            pageCount = 0;
             outLoop:
             while (true) {
 
@@ -234,38 +234,38 @@ public class ArticleThanhNien extends ArticleObject {
                 Elements temptElements = null;
                 Element temptElement = null;
 
-                if (pageCount == 1) {
-
-                    //<editor-fold defaultstate="collapsed" desc="id divshowothers">
-                    temptElement = doc.select("#divshowothers").first();
-                    temptElements = temptElement.select(".bottom-tt-one");
-
-                    for (int j = 0; j < temptElements.size(); j++) {
-                        temptElement = temptElements.get(j);
-                        temptElement = temptElement.select("a").first();
-                        url = temptElement.attr("href");
-                        url = source_url + url;
-
-                        // don't get info of article isn't in category
-                        // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
-                        // continue;
-                        art = getArticleInformation(url);
-                        if (art != null) {
-
-                            if (isTheDayOfMonthValid(art, lasttime) == false) {
-                                break;
-                            }
-                            if (art.getArticleDate().getTime() > lasttime.getTime()
-                                    && art.getArticleDate().getTime() < newtime.getTime()) {
-
-                                artArray.add(art);
-                            }
-                        }
-
-                    }
-//</editor-fold>
-
-                } // end if (pageCount == 1) condition
+//                if (pageCount == 1) {
+//
+//                    //<editor-fold defaultstate="collapsed" desc="id divshowothers">
+//                    temptElement = doc.select("#divshowothers").first();
+//                    temptElements = temptElement.select(".bottom-tt-one");
+//
+//                    for (int j = 0; j < temptElements.size(); j++) {
+//                        temptElement = temptElements.get(j);
+//                        temptElement = temptElement.select("a").first();
+//                        url = temptElement.attr("href");
+//                        url = source_url + url;
+//
+//                        // don't get info of article isn't in category
+//                        // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
+//                        // continue;
+//                        art = getArticleInformation(url);
+//                        if (art != null) {
+//
+//                            if (isTheDayOfMonthValid(art, lasttime) == false) {
+//                                break;
+//                            }
+//                            if (art.getArticleDate().getTime() > lasttime.getTime()
+//                                    && art.getArticleDate().getTime() < newtime.getTime()) {
+//
+//                                artArray.add(art);
+//                            }
+//                        }
+//
+//                    }
+////</editor-fold>
+//
+//                } // end if (pageCount == 1) condition
 
                 //<editor-fold defaultstate="collapsed" desc="class lvkd-content id divtoptin">
                 temptElement = doc.select(".lvkd-content").first();
@@ -304,7 +304,6 @@ public class ArticleThanhNien extends ArticleObject {
 
     @Override
     public int getArticleLike(int objectID) {
-        /// throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return 0;
     }
 

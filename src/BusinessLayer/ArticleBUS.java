@@ -49,12 +49,16 @@ public class ArticleBUS {
         if (art.getCountOfUpdate() < maxCount - 1) {
             art.setCountOfUpdate(art.getCountOfUpdate() + 1);
         } else {
-            if (art.getCountOfUpdate() == 5) {
-                art.setCountOfUpdate(-1);
-            } else {
+//            if (art.getCountOfUpdate() == 5) {
+//                art.setCountOfUpdate(-1);
+//            } else {
+//                art.setCountOfUpdate(0);
+//            }
+//            art.setIDTableUpdateTime(art.getIDTableUpdateTime() + 1);
+            //if (art.getIDTableUpdateTime() != 5) {
                 art.setCountOfUpdate(0);
-            }
-            art.setIDTableUpdateTime(art.getIDTableUpdateTime() + 1);
+                art.setIDTableUpdateTime(art.getIDTableUpdateTime() + 1);
+            //}
         }
         return artDAO.updateArticle(username, password, art);
     }
@@ -67,15 +71,19 @@ public class ArticleBUS {
         return artDAO.getArticleToUpdate(username, password, IDTableUpdateTime, IDTableMagazine);
     }
 
-    public int isArticleExists(ArticleDTO art) {
-        return artDAO.isArticleExists(username, password, art);
+    public int isArticleExistsForInsert(ArticleDTO art) {
+        return artDAO.isArticleExistsForInsert(username, password, art);
+    }
+    
+    public int isArticleExistsForUpdate(ArticleDTO art) {
+        return artDAO.isArticleExistsForUpdate(username, password, art);
     }
 
     // working with list
     // if article don't exist => insert
     public boolean insert(List<ArticleDTO> lart) {
         for(int i = 0; i < lart.size(); i++) {
-            if (isArticleExists(lart.get(i)) == 0) { // phải gọi kiểm tra liên tục => truy suất database liên tục
+            if (isArticleExistsForInsert(lart.get(i)) == 0) { // phải gọi kiểm tra liên tục => truy suất database liên tục
                 if (insertArticle(lart.get(i)) == false) {
                     return false;
                 }
@@ -90,17 +98,17 @@ public class ArticleBUS {
 
     public boolean update(List<ArticleDTO> lart) {
         for (ArticleDTO art : lart) {
-            if (isArticleExists(art) == 1) {
+            if (isArticleExistsForUpdate(art) == 1) {
                 if (updateArticle(art) == false) {
                     return false;
-                } else {
+                } }
+            else {
                     if (insertArticle(art) == false) {
                         return false;
                     }
                 }
             }
 
-        }
         return true;
 
     }

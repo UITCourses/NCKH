@@ -235,13 +235,55 @@ public class ArticleDAO extends OpenDBConnection {
         return null;
     }
     
-    // isArticleExists
-      public int isArticleExists (String username, String password, ArticleDTO art)    {
+    // isArticleExistsForUpdate
+      public int isArticleExistsForUpdate (String username, String password, ArticleDTO art)    {
         try {
             if(connection.isClosed())
                 openConnection(username, password);
-            // isArticleExists (IDTableMagazine int, ObjectID int, out Result int)
-            call = connection.prepareCall("{call isArticleExists(?,?,?)}");
+            // getArticleToUpdate(IDTableUpdateTime int, IDTableMagazine int)
+
+            call = connection.prepareCall("{call isArticleExistsForUpdate(?,?)}");
+            
+            call.setInt(1, art.getIDTableArticle());
+            call.registerOutParameter(2,Types.INTEGER );
+            
+            call.execute();
+            
+            return call.getInt(2);
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            try {
+                if (call != null) {
+                    call.close();
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+      
+      // isArticleExistsForInsert
+       public int isArticleExistsForInsert (String username, String password, ArticleDTO art)    {
+        try {
+            if(connection.isClosed())
+                openConnection(username, password);
+            // isArticleExistsForInsert(magazine int, objectid int, out Result int)
+
+            call = connection.prepareCall("{call isArticleExistsForInsert(?,?,?)}");
             
             call.setInt(1, art.getIDTableMagazine());
             call.setInt(2, art.getObjectID());
