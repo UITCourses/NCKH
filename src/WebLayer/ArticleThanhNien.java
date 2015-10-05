@@ -279,6 +279,7 @@ public class ArticleThanhNien extends ArticleObject {
                     // don't get info of article isn't in category
                     // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
                     // break;
+                    System.out.println(url);
                     art = getArticleInformation(url);
                     if (art != null) {
                         // if date of month of art - day of month of lasttime =
@@ -287,8 +288,7 @@ public class ArticleThanhNien extends ArticleObject {
                             break outLoop;
                         }
                         // if time gets art > lasttime => get art
-                        if (art.getArticleDate().getTime() > lasttime.getTime()
-                                && art.getArticleDate().getTime() < newtime.getTime()) {
+                        if (isTimeValid(art, newtime, lasttime)) {
                             artArray.add(art);
                         }
                     }

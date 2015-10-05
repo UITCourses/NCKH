@@ -33,7 +33,8 @@ public class ArticleVnexpress extends  ArticleObject {
     // video in code
     @Override
     public ArticleDTO getArticleInformation(String source_url) {
-        if (source_url.matches("(.*)http://video.vnexpress.net(.*)") == true) {
+        if (source_url.matches("(.*)http://video.vnexpress.net(.*)") == true
+                || source_url.matches("(.*)http://vnexpress.net/interactive(.*)") == true) {
             return null;
         }
 
@@ -230,12 +231,11 @@ public class ArticleVnexpress extends  ArticleObject {
             if (category.text().length() == 0) {
                 continue;
             }
-            //String realCate = "Thời sự, Thế giới, Kinh doanh, Giáo dục, Thể thao, Giải trí, Khoa học";
-            String realCate = "Thời sự, Thế giới";
+            String realCate = "Thời sự, Thế giới, Kinh doanh, Giáo dục, Thể thao, Giải trí, Khoa học";
+
             if (realCate.matches("(.*)" + category.text() + "(.*)") == false) {
                 continue;
             }
-            // writer.println("Content : " + category.text());
             String tempt = category.attr("href");
             if (tempt.charAt(tempt.length() - 1) == '/') {
                 tempt = tempt.substring(0, tempt.length() - 1);
@@ -245,7 +245,6 @@ public class ArticleVnexpress extends  ArticleObject {
             } else {
                 arrayMenu.add(source_url + tempt);
             }
-            // writer.println();
         }
 
         return arrayMenu;
@@ -296,10 +295,10 @@ public class ArticleVnexpress extends  ArticleObject {
                     // don't get info of article isn't in category
                     // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
                     // continue;
+                    System.out.println(url);
                     art = getArticleInformation(url);
-                    if (isTheDayOfMonthValid(art, lasttime) != false && art != null) {
-                        if (art.getArticleDate().getTime() >= lasttime.getTime()
-                                && art.getArticleDate().getTime() < newtime.getTime()) {
+                    if (art != null && isTheDayOfMonthValid(art, lasttime) != false) {
+                        if (isTimeValid(art, newtime, lasttime)) {
 
                             artArray.add(art);
                         }
@@ -316,15 +315,14 @@ public class ArticleVnexpress extends  ArticleObject {
                         // don't get info of article isn't in category
                         // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
                         // continue;
+                        System.out.println(url);
                         art = getArticleInformation(url);
                         if (art != null) {
 
                             if (isTheDayOfMonthValid(art, lasttime) == false) {
                                 break;
                             }
-                            if (art.getArticleDate().getTime() >= lasttime.getTime()
-                                    && art.getArticleDate().getTime() < newtime.getTime()) {
-
+                            if (isTimeValid(art, newtime, lasttime)) {
                                 artArray.add(art);
                             }
                         }
@@ -340,10 +338,8 @@ public class ArticleVnexpress extends  ArticleObject {
                 for (Element element : temptElements) {
                     temptElement = element.select("a[href]").first();
                     url = temptElement.attr("href");
-                    // art = getAriticleInformationDependOnTime(url, lasttime);
                     // don't get info of article isn't in category
-                    // if (url.matches(arrayMenu.get(i) + "(.*)") == false)
-                    // break;
+                    System.out.println(url);
                     art = getArticleInformation(url);
                     if (art != null) {
                         // if date of month of art - day of month of lasttime =
@@ -352,8 +348,7 @@ public class ArticleVnexpress extends  ArticleObject {
                             break outLoop;
                         }
                         // if time gets art > lasttime => get art
-                        if (art.getArticleDate().getTime() >= lasttime.getTime()
-                                && art.getArticleDate().getTime() < newtime.getTime()) {
+                        if (isTimeValid(art, newtime, lasttime)) {
                             artArray.add(art);
                         }
                     }

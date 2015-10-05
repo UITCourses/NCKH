@@ -52,16 +52,28 @@ public abstract class ArticleObject {
     
     // Check if date of month valid
     protected boolean isTheDayOfMonthValid(ArticleDTO art, Timestamp lasttime) {
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTime(art.getArticleDate());
-
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(lasttime);
-        if(cal1.get(Calendar.MONTH) > cal2.get(Calendar.MONTH))
+        Calendar calArt = Calendar.getInstance();
+        calArt.setTime(art.getArticleDate());
+        
+        Calendar calLast = Calendar.getInstance();
+        calLast.setTime(lasttime);
+//        if(cal1.get(Calendar.MONTH) > cal2.get(Calendar.MONTH))
+//            return true;
+//        if(cal1.get(Calendar.MONTH) < cal2.get(Calendar.MONTH))
+//            return false;
+//        if (cal1.get(Calendar.DAY_OF_MONTH) - cal2.get(Calendar.DAY_OF_MONTH) >= 0) {
+//            return true;
+//        }
+        if(calArt.get(Calendar.DAY_OF_YEAR) - calLast.get((Calendar.DAY_OF_YEAR)) >= 0)
             return true;
-        if (cal1.get(Calendar.DAY_OF_MONTH) - cal2.get(Calendar.DAY_OF_MONTH) >= 0) {
+        return false;
+    }
+    
+    // check if date time valid, lasstime < art.getDate < newtime
+    protected boolean isTimeValid(ArticleDTO art, Timestamp newtime, Timestamp lasttime){
+        if(art.getArticleDate().getTime() >= lasttime.getTime()
+                                && art.getArticleDate().getTime() < newtime.getTime())
             return true;
-        }
         return false;
     }
     

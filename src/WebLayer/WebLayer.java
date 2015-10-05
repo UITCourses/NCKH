@@ -107,6 +107,9 @@ public class WebLayer {
         if (lSubcmt != null) {
             subBus.insert(lSubcmt);
         }
+        lArticle = null;
+        lParentCmt =null;
+        lSubcmt = null;
     }
 
     // update to database with specific magazine
@@ -198,7 +201,8 @@ public class WebLayer {
         if(lSubCmt != null)
         subBus.update(lSubCmt);
        
-
+        lParentCmt =null;
+        lSubCmt = null;
     }
 
 }

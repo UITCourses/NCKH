@@ -39,21 +39,27 @@ public class TestUpdate {
         Calendar calendar = new GregorianCalendar();
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) - 2);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.MONTH, 10-1);
+        Timestamp lasttime = new Timestamp(calendar.getTimeInMillis());
+
+        calendar.set(Calendar.DAY_OF_MONTH, 4);
+        calendar.set(Calendar.MONTH, 10-1);
+        calendar.set(Calendar.HOUR_OF_DAY, 15);
         Timestamp newtime = new Timestamp(calendar.getTimeInMillis());
 
-        // calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
-        calendar.set(Calendar.HOUR_OF_DAY, 15);
-        Timestamp lasttime = new Timestamp(calendar.getTimeInMillis());
-        
         WebLayer wl = new WebLayer(username, password);
-       // String url = "http://vnexpress.net";
-        String url = "http://www.thanhnien.com.vn";
-        
-       //wl.update(url, 5);
-        wl.insert(url, newtime, lasttime);
-        
+        String lurl[] = {"http://vnexpress.net", "http://www.thanhnien.com.vn",
+         "http://tuoitre.vn"};
+        //String url = "http://vnexpress.net";
+        //String url = "http://www.thanhnien.com.vn";
+        // String url = "http://tuoitre.vn";
+        //wl.update(url, 1);
+        for (String url : lurl) {
+            wl.insert(url, newtime, lasttime);
+        }
+
         System.out.println("Finished");
 
     }

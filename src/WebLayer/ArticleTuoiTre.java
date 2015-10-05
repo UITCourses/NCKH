@@ -35,6 +35,8 @@ public class ArticleTuoiTre extends ArticleObject {
 
     @Override
     public ArticleDTO getArticleInformation(String source_url) {
+        if(source_url.matches("(.*)http://nhipsongso.tuoitre.vn/(.*)") == true)
+            return null;
         // TODO Auto-generated method stub
         ArticleDTO art = new ArticleDTO();
         String tempt = null;
@@ -235,10 +237,10 @@ public class ArticleTuoiTre extends ArticleObject {
             // block-feature
             temptElement = doc.select(".block-feature > a").first();
             url = temptElement.attr("href");
+            System.out.println(url);
             art = getArticleInformation(url);
             if (art != null && isTheDayOfMonthValid(art, lasttime) != false) {
-                if (art.getArticleDate().getTime() > lasttime.getTime()
-                        && art.getArticleDate().getTime() < newtime.getTime()) {
+                if (isTimeValid(art, newtime, lasttime)) {
                     artArray.add(art);
                 }
             }
@@ -248,10 +250,10 @@ public class ArticleTuoiTre extends ArticleObject {
             for (int j = 0; j < temptElements.size(); j++) {
                 temptElement = temptElements.get(j);
                 url = temptElement.attr("href");
+                System.out.println(url);
                 art = getArticleInformation(url);
                 if (art != null && isTheDayOfMonthValid(art, lasttime) != false) {
-                    if (art.getArticleDate().getTime() > lasttime.getTime()
-                            && art.getArticleDate().getTime() < newtime.getTime()) {
+                    if (isTimeValid(art, newtime, lasttime)) {
                         artArray.add(art);
                     }
                 }
@@ -285,25 +287,21 @@ public class ArticleTuoiTre extends ArticleObject {
                 for (Element element : temptElements) {
                     temptElement = element.select("a[href]").first();
                     url = temptElement.attr("href");
-
+                    System.out.println(url);
                     // don't get info of article isn't in category
                     art = getArticleInformation(url);
                     if (art != null) {
-                        // if date of month of art - day of month of lasttime =
-                        // -1 => break outloop
                         if (isTheDayOfMonthValid(art, lasttime) == false) {
                             break outLoop;
                         }
-                        // if time gets art > lasttime => get art
-                        if (art.getArticleDate().getTime() > lasttime.getTime()
-                                && art.getArticleDate().getTime() < newtime.getTime()) {
+                        
+                        if (isTimeValid(art, newtime, lasttime)) {
                             artArray.add(art);
                         }
                     }
                 }
 //</editor-fold>
 
-                // writer.println("End page " + pageCount);
                 pageCount++;
             } // end while loop
 
